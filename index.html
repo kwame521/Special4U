@@ -20,6 +20,114 @@
             position: relative;
         }
 
+        /* Music controls */
+        .music-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .music-status {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .welcome-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: popIn 0.8s ease forwards 0.3s;
+            transform: scale(0.8);
+        }
+
+        .welcome-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .welcome-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .welcome-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .welcome-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .welcome-btn.primary {
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border-color: #ff6b9d;
+        }
+
         /* Starry background */
         .stars {
             position: fixed;
@@ -73,6 +181,18 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
             }
         }
 
@@ -353,20 +473,6 @@
             animation: popIn 0.8s ease;
         }
 
-        @keyframes popIn {
-            0% {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-            80% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
         .footer-message {
             color: rgba(255, 255, 255, 0.9);
             font-style: italic;
@@ -417,10 +523,66 @@
                 font-size: 1rem;
                 padding: 15px;
             }
+
+            .music-controls {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+            }
+
+            .welcome-content {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .welcome-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .welcome-content p {
+                font-size: 1rem;
+            }
+
+            .welcome-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .welcome-btn {
+                width: 100%;
+                max-width: 200px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Welcome Modal -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <h2>🎉 Welcome to Gigi-Bear's Birthday! 🎉</h2>
+            <p>💕 This is your personalized celebration space filled with love, music, and birthday magic! 💕</p>
+            <p>Would you like to play some beautiful background music to make this celebration even more special?</p>
+            <div class="welcome-buttons">
+                <button class="welcome-btn primary" onclick="startWithMusic()">🎵 Yes, Play Music!</button>
+                <button class="welcome-btn" onclick="startSilent()">🔇 Continue Silently</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Music Controls -->
+    <div class="music-controls">
+        <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">🎵</button>
+        <span class="music-status" id="musicStatus">Music Ready</span>
+    </div>
+
+    <!-- Background Audio (You'll need to replace the src with your actual audio file) -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <!-- Replace this with your actual audio file URL -->
+        <!-- <source src="your-music-file.mp3" type="audio/mpeg"> -->
+        <!-- For now, this is a placeholder - you'll need to add your music file -->
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBjiR2OzNeSsFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBg==" type="audio/wav">
+    </audio>
+
     <div class="stars" id="stars"></div>
     <div class="floating-hearts" id="floating-hearts"></div>
     <div class="celebration" id="celebration"></div>
@@ -500,20 +662,142 @@
     </div>
 
     <script>
+        let musicPlaying = false;
+        let backgroundMusic;
+
         // Initialize the website
         window.addEventListener('load', function() {
+            backgroundMusic = document.getElementById('backgroundMusic');
             createStars();
+            
+            // Show welcome modal
+            setTimeout(() => {
+                document.getElementById('welcomeModal').style.display = 'flex';
+            }, 800);
             
             // Create hearts periodically
             setInterval(createFloatingHeart, 3000);
-            
-            // Welcome message after a short delay
-            setTimeout(() => {
-                if (confirm('💕 Welcome to your special birthday website! This is your personalized celebration space. Click OK to start exploring! 💕')) {
-                    createPetals();
-                }
-            }, 1500);
         });
+
+        // Start with music
+        function startWithMusic() {
+            document.getElementById('welcomeModal').style.display = 'none';
+            playBackgroundMusic();
+            createPetals();
+            setTimeout(createPetals, 1000);
+        }
+
+        // Start silently
+        function startSilent() {
+            document.getElementById('welcomeModal').style.display = 'none';
+            updateMusicStatus('Music Off');
+            createPetals();
+            setTimeout(createPetals, 1000);
+        }
+
+        // Play background music
+        function playBackgroundMusic() {
+            // Note: You'll need to replace the audio source with your actual music file
+            // For now, this creates a simple celebratory tone
+            if (backgroundMusic && backgroundMusic.src && backgroundMusic.src !== window.location.href) {
+                backgroundMusic.play().then(() => {
+                    musicPlaying = true;
+                    updateMusicStatus('♪ Playing');
+                    document.getElementById('musicToggle').textContent = '🎵';
+                }).catch(error => {
+                    console.log('Audio playback failed:', error);
+                    createSimpleMusic();
+                });
+            } else {
+                createSimpleMusic();
+            }
+        }
+
+        // Create simple celebratory music using Web Audio API
+        function createSimpleMusic() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Create a simple celebratory melody
+                const playNote = (frequency, startTime, duration) => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(frequency, startTime);
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(0.1, startTime + 0.1);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(startTime + duration);
+                };
+
+                // Happy Birthday melody (simplified)
+                const melody = [
+                    {note: 261.63, duration: 0.5}, // C
+                    {note: 261.63, duration: 0.5}, // C
+                    {note: 293.66, duration: 1},   // D
+                    {note: 261.63, duration: 1},   // C
+                    {note: 349.23, duration: 1},   // F
+                    {note: 329.63, duration: 2},   // E
+                ];
+
+                let currentTime = audioContext.currentTime + 0.1;
+                
+                const playMelody = () => {
+                    melody.forEach((noteObj, index) => {
+                        playNote(noteObj.note, currentTime, noteObj.duration);
+                        currentTime += noteObj.duration + 0.1;
+                    });
+                    
+                    // Repeat the melody
+                    setTimeout(() => {
+                        if (musicPlaying) {
+                            currentTime = audioContext.currentTime + 0.1;
+                            playMelody();
+                        }
+                    }, 8000);
+                };
+
+                playMelody();
+                musicPlaying = true;
+                updateMusicStatus('♪ Playing');
+                document.getElementById('musicToggle').textContent = '🎵';
+
+            } catch (error) {
+                console.log('Web Audio API not supported:', error);
+                updateMusicStatus('Music Unavailable');
+            }
+        }
+
+        // Toggle music
+        function toggleMusic() {
+            if (musicPlaying) {
+                stopMusic();
+            } else {
+                playBackgroundMusic();
+            }
+        }
+
+        // Stop music
+        function stopMusic() {
+            if (backgroundMusic) {
+                backgroundMusic.pause();
+            }
+            musicPlaying = false;
+            updateMusicStatus('Music Off');
+            document.getElementById('musicToggle').textContent = '🔇';
+        }
+
+        // Update music status
+        function updateMusicStatus(status) {
+            document.getElementById('musicStatus').textContent = status;
+        }
 
         // Create starry background
         function createStars() {
