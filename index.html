@@ -730,8 +730,8 @@
                     oscillator.type = 'sine';
                     
                     gainNode.gain.setValueAtTime(0, startTime);
-                    gainNode.gain.linearRampToValueAtTime(0.1, startTime + 0.1);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+                    gainNode.gain.linearRampToValueAtTime(0.4, startTime + 0.1);
+                    gainNode.gain.exponentialRampToValueAtTime(0.2, startTime + duration);
                     
                     oscillator.start(startTime);
                     oscillator.stop(startTime + duration);
